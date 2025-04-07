@@ -44,8 +44,20 @@ public class Util {
 		// if id = 9, then (6 < 9 <= 2) = true
 		
 		// Task: given an identifier, id: check whether pred < id <= node
-		
-		return false;
+
+		// Case 1: Non-wrapped interval (lower < upper)
+		if (lower.compareTo(upper) < 0) {
+			return lower.compareTo(id) < 0 && id.compareTo(upper) <= 0;
+		}
+		// Case 2: Wrapped interval (lower > upper)
+		else if (lower.compareTo(upper) > 0) {
+			return id.compareTo(lower) > 0 || id.compareTo(upper) <= 0;
+		}
+		// Case 3: lower == upper (edge case)
+		else {
+			return true; // If lower equals upper, all ids are trivially included
+		}
+
 
 	}
 	

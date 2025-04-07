@@ -65,6 +65,11 @@ public class FileManager {
 		// hash the replica
 		
 		// store the hash in the replicafiles array.
+
+		for (int i = 0; i < numReplicas; i++) {
+			String replica = filename + i;
+			replicafiles[i] = Hash.hashOf(replica);
+		}
 	}
 	
     /**
@@ -79,6 +84,18 @@ public class FileManager {
     	int index = rnd.nextInt(Util.numReplicas-1);
     	
     	int counter = 0;
+		createReplicaFiles();
+
+		for (int i = 0; i < replicafiles.length; i++) {
+			chordnode.findSuccessor(replicafiles[i]);
+			chordnode.addKey(replicafiles[i]);
+			if (counter == index) {
+				chordnode.saveFileContent(filename, replicafiles[i], bytesOfFile, true);
+			} else {
+				chordnode.saveFileContent(filename, replicafiles[i], bytesOfFile, false);
+			}
+		}
+
 	
     	// Task1: Given a filename, make replicas and distribute them to all active peers such that: pred < replica <= peer
     	
