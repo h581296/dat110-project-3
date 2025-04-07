@@ -173,7 +173,13 @@ public class ChordProtocols {
 			// iterate over the number of bits
 
 			for (int i = 0; i < nOfBits; i++) {
-				
+				BigInteger n = chordnode.getNodeID();
+				BigInteger k = (n.add(BigInteger.valueOf(2)).pow(i)).mod(addressSize);
+
+				NodeInterface succnode = chordnode.findSuccessor(k);
+				if (succnode != null) {
+					fingerTable.add(succnode);
+				}
 			}
 			
 			// compute: k = succ(n + 2^(i)) mod 2^mbit
